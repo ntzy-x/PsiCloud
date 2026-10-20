@@ -1,1 +1,91 @@
- h1 {color:red;}
+:root {
+  --cor-primaria: #2C3E50;
+  --cor-secundaria: #4A90E2;
+  --cor-secundaria-hover: #357ABD;
+  --cor-fundo-input: #FFFFFF;
+  --cor-borda: #CBD5E1;
+  --cor-texto: #1E293B;
+  --cor-placeholder: #94A3B8;
+  --raio-borda: 8px;
+  --fonte-padrao: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+.input-field {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: var(--fonte-padrao);
+  font-size: 1rem;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo-input);
+  border: 1.5px solid var(--cor-borda);
+  border-radius: var(--raio-borda);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+.input-field::placeholder {
+  color: var(--cor-placeholder);
+}
+
+
+.input-field:focus {
+  border-color: var(--cor-secundaria);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+
+select.input-field {
+  cursor: pointer;
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%3C2C3E50'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 40px; 
+}
+
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 24px;
+  font-family: var(--fonte-padrao);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: var(--cor-secundaria);
+  border: none;
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+
+.btn-primary:hover {
+  background-color: var(--cor-secundaria-hover);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+
+.btn-primary:disabled,
+.input-field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
