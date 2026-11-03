@@ -693,4 +693,859 @@
 
                             </label>
 
-          
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- HORÁRIOS -->
+
+            <section class="painel horarios">
+
+                <h2>🕒 Escolha um horário</h2>
+
+                <div class="horarios-grid">
+
+                    <div class="horario">
+                        <input type="radio" id="h1" name="horario" value="08:00" required>
+                        <label for="h1">08:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h2" name="horario" value="09:00">
+                        <label for="h2">09:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h3" name="horario" value="10:00">
+                        <label for="h3">10:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h4" name="horario" value="13:00">
+                        <label for="h4">13:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h5" name="horario" value="14:00">
+                        <label for="h5">14:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h6" name="horario" value="15:00">
+                        <label for="h6">15:00</label>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-agendar">
+                    Confirmar Agendamento
+                </button>
+
+            </section>
+
+        </form>
+
+    </main>
+
+    <!-- MODAL DE CONFIRMAÇÃO -->
+
+    <div class="modal" id="confirmacao">
+
+        <div class="modal-card">
+
+            <h2>Agendamento demonstrativo!</h2>
+
+            <p>
+                Suas escolhas foram enviadas para a demonstração
+                visual do PsiCloud. Nenhuma consulta real foi marcada.
+            </p>
+
+            <a href="agendamento.html">
+                Voltar ao calendário
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+    </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agendamento | PsiCloud</title>
+
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- CSS específico da página -->
+    <style>
+
+        /* CONFIGURAÇÕES GERAIS */
+
+        body {
+            background-color: var(--cor-fundo);
+        }
+
+        .agendamento-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .pagina-header {
+            margin-bottom: 30px;
+        }
+
+        .pagina-header h1 {
+            color: var(--cor-primaria);
+            font-size: 2rem;
+        }
+
+        .pagina-header p {
+            color: #64748B;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--cor-secundaria);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ORGANIZAÇÃO PRINCIPAL COM GRID */
+
+        .agendamento-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .painel {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .painel h2 {
+            color: var(--cor-primaria);
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+
+        /* CALENDÁRIO */
+
+        .calendario {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 8px;
+            text-align: center;
+        }
+
+        .dia-semana {
+            font-weight: bold;
+            color: #64748B;
+            font-size: 0.85rem;
+            padding: 10px 0;
+        }
+
+        .dia-vazio {
+            min-height: 42px;
+        }
+
+        .dia input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dia label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            border-radius: 8px;
+            background-color: #F1F5F9;
+            color: var(--cor-primaria);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .dia label:hover {
+            background-color: #DBEAFE;
+        }
+
+        .dia input:checked + label {
+            background-color: var(--cor-secundaria);
+            color: white;
+            font-weight: bold;
+        }
+
+        .dia input:focus-visible + label {
+            outline: 3px solid var(--cor-primaria);
+            outline-offset: 2px;
+        }
+
+        .dia input:disabled + label {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .calendario-legenda {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .legenda-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .legenda-cor {
+            width: 13px;
+            height: 13px;
+            border-radius: 4px;
+            background: #F1F5F9;
+        }
+
+        .legenda-cor.selecionado {
+            background: var(--cor-secundaria);
+        }
+
+        /* CARDS DOS PSICÓLOGOS */
+
+        .psicologos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .psicologo input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .psicologo label {
+            display: block;
+            padding: 18px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            height: 100%;
+        }
+
+        .psicologo label:hover {
+            border-color: var(--cor-secundaria);
+            transform: translateY(-2px);
+        }
+
+        .psicologo input:checked + label {
+            border-color: var(--cor-secundaria);
+            background-color: #EFF6FF;
+        }
+
+        .psicologo input:focus-visible + label {
+            outline: 3px solid var(--cor-primaria);
+            outline-offset: 2px;
+        }
+
+        .avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background-color: #DBEAFE;
+            color: var(--cor-primaria);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .psicologo h3 {
+            color: var(--cor-primaria);
+            font-size: 1rem;
+        }
+
+        .psicologo p {
+            color: #64748B;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .disponibilidade {
+            display: inline-block;
+            margin-top: 12px;
+            color: #15803D;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* HORÁRIOS */
+
+        .horarios {
+            margin-top: 25px;
+        }
+
+        .horarios h2 {
+            margin-bottom: 15px;
+        }
+
+        .horarios-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .horario input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .horario label {
+            display: block;
+            padding: 12px 5px;
+            text-align: center;
+            background: #F1F5F9;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--cor-primaria);
+            transition: 0.2s;
+        }
+
+        .horario label:hover {
+            background: #DBEAFE;
+        }
+
+        .horario input:checked + label {
+            background: var(--cor-secundaria);
+            color: white;
+        }
+
+        .horario input:focus-visible + label {
+            outline: 3px solid var(--cor-primaria);
+        }
+
+        /* BOTÃO */
+
+        .btn-agendar {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--cor-secundaria);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-agendar:hover {
+            background-color: #357ABD;
+        }
+
+        /* MODAL CSS :TARGET */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 1000;
+        }
+
+        .modal:target {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-card h2 {
+            color: var(--cor-primaria);
+            margin-bottom: 12px;
+        }
+
+        .modal-card p {
+            color: #64748B;
+            margin-bottom: 20px;
+        }
+
+        .modal-card a {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--cor-secundaria);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        /* RESPONSIVIDADE */
+
+        @media (max-width: 800px) {
+
+            .agendamento-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .psicologos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calendario {
+                gap: 4px;
+            }
+
+            .dia label {
+                min-height: 38px;
+                font-size: 0.85rem;
+            }
+
+            .painel {
+                padding: 17px;
+            }
+
+            .horarios-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pagina-header h1 {
+                font-size: 1.6rem;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <main class="agendamento-container">
+
+        <a href="../index.html" class="voltar">
+            ← Voltar para o início
+        </a>
+
+        <header class="pagina-header">
+            <h1>Agendamento de Consulta</h1>
+            <p>
+                Escolha um profissional, uma data e um horário
+                para seu atendimento.
+            </p>
+        </header>
+
+        <form action="#confirmacao" method="get">
+
+            <div class="agendamento-grid">
+
+                <!-- CALENDÁRIO -->
+
+                <section class="painel">
+
+                    <h2>📅 Selecione uma data</h2>
+
+                    <h3 style="text-align:center; margin-bottom:15px;">
+                        Novembro de 2026
+                    </h3>
+
+                    <div class="calendario">
+
+                        <div class="dia-semana">Dom</div>
+                        <div class="dia-semana">Seg</div>
+                        <div class="dia-semana">Ter</div>
+                        <div class="dia-semana">Qua</div>
+                        <div class="dia-semana">Qui</div>
+                        <div class="dia-semana">Sex</div>
+                        <div class="dia-semana">Sáb</div>
+
+                        <!-- Dias anteriores -->
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d1" name="data">
+                            <label for="d1">1</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d2" name="data">
+                            <label for="d2">2</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d3" name="data">
+                            <label for="d3">3</label>
+                        </div>
+
+                        <!-- Datas disponíveis -->
+
+                        <div class="dia">
+                            <input type="radio" id="d4" name="data" value="04/11/2026" required>
+                            <label for="d4">4</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d5" name="data" value="05/11/2026">
+                            <label for="d5">5</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d6" name="data" value="06/11/2026">
+                            <label for="d6">6</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d7" name="data">
+                            <label for="d7">7</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d8" name="data">
+                            <label for="d8">8</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d9" name="data" value="09/11/2026">
+                            <label for="d9">9</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d10" name="data" value="10/11/2026">
+                            <label for="d10">10</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d11" name="data" value="11/11/2026">
+                            <label for="d11">11</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d12" name="data" value="12/11/2026">
+                            <label for="d12">12</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d13" name="data" value="13/11/2026">
+                            <label for="d13">13</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d14" name="data">
+                            <label for="d14">14</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d15" name="data">
+                            <label for="d15">15</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d16" name="data" value="16/11/2026">
+                            <label for="d16">16</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d17" name="data" value="17/11/2026">
+                            <label for="d17">17</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d18" name="data" value="18/11/2026">
+                            <label for="d18">18</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d19" name="data" value="19/11/2026">
+                            <label for="d19">19</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d20" name="data" value="20/11/2026">
+                            <label for="d20">20</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d21" name="data">
+                            <label for="d21">21</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d22" name="data">
+                            <label for="d22">22</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d23" name="data" value="23/11/2026">
+                            <label for="d23">23</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d24" name="data" value="24/11/2026">
+                            <label for="d24">24</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d25" name="data" value="25/11/2026">
+                            <label for="d25">25</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d26" name="data" value="26/11/2026">
+                            <label for="d26">26</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d27" name="data" value="27/11/2026">
+                            <label for="d27">27</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d28" name="data">
+                            <label for="d28">28</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" disabled id="d29" name="data">
+                            <label for="d29">29</label>
+                        </div>
+
+                        <div class="dia">
+                            <input type="radio" id="d30" name="data" value="30/11/2026">
+                            <label for="d30">30</label>
+                        </div>
+
+                    </div>
+
+                    <div class="calendario-legenda">
+
+                        <div class="legenda-item">
+                            <span class="legenda-cor"></span>
+                            Disponível (demonstrativo)
+                        </div>
+
+                        <div class="legenda-item">
+                            <span class="legenda-cor selecionado"></span>
+                            Selecionado
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- PSICÓLOGOS -->
+
+                <section class="painel">
+
+                    <h2>👨‍⚕️ Escolha o profissional</h2>
+
+                    <div class="psicologos-grid">
+
+                        <div class="psicologo">
+
+                            <input type="radio"
+                                   id="psi1"
+                                   name="psicologo"
+                                   value="Profissional 1"
+                                   required>
+
+                            <label for="psi1">
+
+                                <div class="avatar">P1</div>
+
+                                <h3>Psicólogo(a) 01</h3>
+
+                                <p>Atendimento psicológico</p>
+
+                                <span class="disponibilidade">
+                                    Perfil demonstrativo
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="psicologo">
+
+                            <input type="radio"
+                                   id="psi2"
+                                   name="psicologo"
+                                   value="Profissional 2">
+
+                            <label for="psi2">
+
+                                <div class="avatar">P2</div>
+
+                                <h3>Psicólogo(a) 02</h3>
+
+                                <p>Atendimento psicológico</p>
+
+                                <span class="disponibilidade">
+                                    Perfil demonstrativo
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="psicologo">
+
+                            <input type="radio"
+                                   id="psi3"
+                                   name="psicologo"
+                                   value="Profissional 3">
+
+                            <label for="psi3">
+
+                                <div class="avatar">P3</div>
+
+                                <h3>Psicólogo(a) 03</h3>
+
+                                <p>Atendimento psicológico</p>
+
+                                <span class="disponibilidade">
+                                    Perfil demonstrativo
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <div class="psicologo">
+
+                            <input type="radio"
+                                   id="psi4"
+                                   name="psicologo"
+                                   value="Profissional 4">
+
+                            <label for="psi4">
+
+                                <div class="avatar">P4</div>
+
+                                <h3>Psicólogo(a) 04</h3>
+
+                                <p>Atendimento psicológico</p>
+
+                                <span class="disponibilidade">
+                                    Perfil demonstrativo
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- HORÁRIOS -->
+
+            <section class="painel horarios">
+
+                <h2>🕒 Escolha um horário</h2>
+
+                <div class="horarios-grid">
+
+                    <div class="horario">
+                        <input type="radio" id="h1" name="horario" value="08:00" required>
+                        <label for="h1">08:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h2" name="horario" value="09:00">
+                        <label for="h2">09:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h3" name="horario" value="10:00">
+                        <label for="h3">10:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h4" name="horario" value="13:00">
+                        <label for="h4">13:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h5" name="horario" value="14:00">
+                        <label for="h5">14:00</label>
+                    </div>
+
+                    <div class="horario">
+                        <input type="radio" id="h6" name="horario" value="15:00">
+                        <label for="h6">15:00</label>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn-agendar">
+                    Confirmar Agendamento
+                </button>
+
+            </section>
+
+        </form>
+
+    </main>
+
+    <!-- MODAL DE CONFIRMAÇÃO -->
+
+    <div class="modal" id="confirmacao">
+
+        <div class="modal-card">
+
+            <h2>Agendamento demonstrativo!</h2>
+
+            <p>
+                Suas escolhas foram enviadas para a demonstração
+                visual do PsiCloud. Nenhuma consulta real foi marcada.
+            </p>
+
+            <a href="agendamento.html">
+                Voltar ao calendário
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+                            </html>
