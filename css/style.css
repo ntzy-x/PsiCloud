@@ -430,3 +430,54 @@ select.input-field {
   width: auto;
   text-decoration: none;
 }
+
+
+
+/* Evita que a tabela ultrapasse a tela */
+.tabela-responsiva {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 8px;
+}
+
+/* Organização da tabela */
+.tabela-prontuarios {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
+
+/* Células */
+.tabela-prontuarios th,
+.tabela-prontuarios td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    overflow-wrap: break-word;
+}
+
+/* Cabeçalho */
+.tabela-prontuarios th {
+    background-color: #2C3E50;
+    color: white;
+}
+
+/* Telas menores */
+@media (max-width: 600px) {
+    .tabela-responsiva {
+        overflow-x: auto;
+    }
+
+    .tabela-prontuarios {
+        min-width: 550px;
+    }
+
+    .tabela-prontuarios th,
+    .tabela-prontuarios td {
+        padding: 9px;
+        font-size: 13px;
+    }
+}
+
