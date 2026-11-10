@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel demonstrativo de agenda e registro de atendimento do PsiCloud.">
+  <title>Painel do Psicólogo | PsiCloud</title>
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+      background: #F3F7FA;
+    }
+
+    .dashboard-topbar {
+      background: var(--cor-branco);
+      border-bottom: 1px solid #DCE6EE;
+    }
+
+    .topbar-content,
+    .dashboard-main,
+    .dashboard-footer {
+      width: min(1180px, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .topbar-content {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--cor-primaria);
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 2.3rem;
+      height: 2.3rem;
+      flex: 0 0 auto;
+      border-radius: 0.75rem;
+      background: var(--cor-primaria);
+      object-fit: cover;
+    }
+
+    .main-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    .main-nav a {
+      padding: 0.55rem 0.8rem;
+      border-radius: 0.55rem;
+      color: #475569;
+      font-size: 0.92rem;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .main-nav a:hover,
+    .main-nav a:focus-visible {
+      background: #EAF2F8;
+      color: var(--cor-primaria);
+    }
+
+    .dashboard-main {
+      padding-block: 2.25rem 3rem;
+    }
+
+    .page-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .eyebrow {
+      margin-bottom: 0.35rem;
+      color: #55718A;
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .page-heading h1 {
+      color: var(--cor-primaria);
+      font-size: clamp(1.75rem, 4vw, 2.4rem);
+      line-height: 1.2;
+    }
+
+    .page-date {
+      margin-top: 0.45rem;
+      color: #64748B;
+    }
+
+    .demo-badge {
+      flex: 0 0 auto;
+      padding: 0.45rem 0.75rem;
+      border: 1px solid #B7D9ED;
+      border-radius: 999px;
+      background: #EAF6FC;
+      color: #245B78;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .summary-card,
+    .panel {
+      border: 1px solid #E0E8EF;
+      border-radius: 1rem;
+      background: var(--cor-branco);
+      box-shadow: 0 8px 24px rgba(29, 54, 75, 0.05);
+    }
+
+    .summary-card {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 1.1rem 1.25rem;
+    }
+
+    .summary-icon {
+      display: grid;
+      width: 2.7rem;
+      height: 2.7rem;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 0.8rem;
+      background: #EAF2FB;
+      color: var(--cor-primaria);
+      font-size: 1.15rem;
+    }
+
+    .summary-card dt {
+      color: #64748B;
+      font-size: 0.82rem;
+    }
+
+    .summary-card dd {
+      color: var(--cor-primaria);
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
+      align-items: start;
+      gap: 1.25rem;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 1.35rem;
+    }
+
+    .panel-heading {
+      margin-bottom: 1rem;
+    }
+
+    .panel-heading h2 {
+      color: var(--cor-primaria);
+      font-size: 1.2rem;
+    }
+
+    .panel-heading p {
+      margin-top: 0.25rem;
+      color: #64748B;
+      font-size: 0.9rem;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+      border: 1px solid #E2E8F0;
+      border-radius: 0.75rem;
+    }
+
+    .appointments-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .appointments-table caption {
+      padding: 0.8rem 1rem;
+      background: #F8FAFC;
+      color: #64748B;
+      font-size: 0.8rem;
+      text-align: left;
+    }
+
+    .appointments-table th,
+    .appointments-table td {
+      padding: 0.85rem 1rem;
+      border-top: 1px solid #E8EEF3;
+      white-space: nowrap;
+    }
+
+    .appointments-table thead th {
+      background: #F1F6FA;
+      color: #53687A;
+      font-size: 0.75rem;
+      font-weight: 750;
+      letter-spacing: 0.045em;
+      text-transform: uppercase;
+    }
+
+    .appointments-table tbody th {
+      color: var(--cor-primaria);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .appointments-table tbody td {
+      color: #536273;
+      font-size: 0.88rem;
+    }
+
+    .appointments-table tbody tr:hover {
+      background: #F8FBFD;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: #EAF7EF;
+      color: #287044;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .status::before {
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: currentColor;
+      content: "";
+    }
+
+    .status.pending {
+      background: #FFF5DF;
+      color: #8A5A0A;
+    }
+
+    .table-note,
+    .privacy-note {
+      margin-top: 0.9rem;
+      color: #64748B;
+      font-size: 0.82rem;
+    }
+
+    .record-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .field-group label {
+      color: var(--cor-primaria);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .field-group select,
+    .field-group textarea {
+      width: 100%;
+      padding: 0.75rem 0.85rem;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 0.6rem;
+      background-color: var(--cor-branco);
+      color: var(--cor-primaria);
+      font: inherit;
+    }
+
+    .field-group select {
+      appearance: auto;
+    }
+
+    .field-group textarea {
+      min-height: 9rem;
+      resize: vertical;
+    }
+
+    .field-group select:focus-visible,
+    .field-group textarea:focus-visible,
+    .demo-consent input:focus-visible {
+      outline: 3px solid rgba(74, 144, 226, 0.35);
+      outline-offset: 2px;
+      border-color: var(--cor-secundaria);
+    }
+
+    .field-hint {
+      color: #64748B;
+      font-size: 0.78rem;
+    }
+
+    .demo-consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      color: #536273;
+      font-size: 0.82rem;
+    }
+
+    .demo-consent input {
+      width: 1rem;
+      height: 1rem;
+      flex: 0 0 auto;
+      margin-top: 0.2rem;
+      accent-color: var(--cor-secundaria);
+    }
+
+    .privacy-note {
+      padding: 0.8rem;
+      border-left: 3px solid #E4B75B;
+      border-radius: 0.3rem;
+      background: #FFFAED;
+      color: #70551F;
+    }
+
+    .feedback-message {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid #B7D9ED;
+      border-radius: 0.7rem;
+      background: #EAF6FC;
+      color: #245B78;
+      font-size: 0.88rem;
+    }
+
+    .feedback-message:target {
+      display: block;
+    }
+
+    .dashboard-footer {
+      padding-block: 0 1.5rem;
+      color: #738295;
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .topbar-content {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding-block: 0.8rem;
+      }
+
+      .main-nav {
+        justify-content: flex-start;
+        margin-left: -0.55rem;
+      }
+
+      .dashboard-main {
+        padding-top: 1.5rem;
+      }
+
+      .page-heading {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+
+      .summary-card {
+        padding: 0.9rem 1rem;
+      }
+
+      .panel {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="dashboard-topbar">
+    <div class="topbar-content">
+      <a class="brand" href="../index.html" aria-label="PsiCloud - página inicial">
+        <img class="brand-logo" src="../images/logo.png" alt="" aria-hidden="true">
+        <span>PsiCloud</span>
+      </a>
+
+      <nav class="main-nav" aria-label="Navegação principal">
+        <a href="#agenda-hoje">Agenda</a>
+        <a href="#prontuario">Anotação demonstrativa</a>
+        <a href="../index.html">Sair para o início</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">Área do profissional</p>
+        <h1>Painel do psicólogo</h1>
+        <p class="page-date"><time datetime="2026-11-10">Terça-feira, 10 de novembro de 2026</time></p>
+      </div>
+      <span class="demo-badge">Demonstração acadêmica</span>
+    </div>
+
+    <section class="summary-grid" aria-label="Resumo da agenda de hoje">
+      <div class="summary-card">
+        <span class="summary-icon" aria-hidden="true">▦</span>
+        <dl>
+          <dt>Atendimentos hoje</dt>
+          <dd>4</dd>
+        </dl>
+      </div>
+      <div class="summary-card">
+        <span class="summary-icon" aria-hidden="true">✓</span>
+        <dl>
+          <dt>Confirmados</dt>
+          <dd>3</dd>
+        </dl>
+      </div>
+      <div class="summary-card">
+        <span class="summary-icon" aria-hidden="true">◷</span>
+        <dl>
+          <dt>Aguardando confirmação</dt>
+          <dd>1</dd>
+        </dl>
+      </div>
+    </section>
+
+    <div class="dashboard-grid">
+      <section class="panel" id="agenda-hoje" aria-labelledby="agenda-title">
+        <div class="panel-heading">
+          <h2 id="agenda-title">Alunos agendados</h2>
+          <p>Horários e nomes fictícios para apresentação do layout.</p>
+        </div>
+
+        <div class="table-scroll">
+          <table class="appointments-table">
+            <caption>Agenda demonstrativa de 10 de novembro de 2026</caption>
+            <thead>
+              <tr>
+                <th scope="col">Horário</th>
+                <th scope="col">Estudante</th>
+                <th scope="col">Vínculo</th>
+                <th scope="col">Atendimento</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><time datetime="2026-11-10T08:30">08:30</time></td>
+                <th scope="row">Estudante 001</th>
+                <td>Discente</td>
+                <td>Presencial</td>
+                <td><span class="status">Confirmado</span></td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-11-10T10:00">10:00</time></td>
+                <th scope="row">Estudante 002</th>
+                <td>Discente</td>
+                <td>Presencial</td>
+                <td><span class="status">Confirmado</span></td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-11-10T13:30">13:30</time></td>
+                <th scope="row">Estudante 003</th>
+                <td>Discente</td>
+                <td>Online</td>
+                <td><span class="status pending">Aguardando</span></td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-11-10T15:00">15:00</time></td>
+                <th scope="row">Estudante 004</th>
+                <td>Discente</td>
+                <td>Presencial</td>
+                <td><span class="status">Confirmado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="table-note">Os registros acima são fictícios e não representam consultas reais.</p>
+      </section>
+
+      <section class="panel" id="prontuario" aria-labelledby="record-title">
+        <div class="panel-heading">
+          <h2 id="record-title">Anotação de prontuário</h2>
+          <p>Formulário visual para demonstrar o fluxo de registro.</p>
+        </div>
+
+        <!-- Sem atributos name: o texto demonstrativo não é enviado na URL. -->
+        <form class="record-form" action="#aviso-demo" method="get">
+          <div class="field-group">
+            <label for="estudante">Estudante</label>
+            <select id="estudante" required>
+              <option value="" disabled selected>Selecione um registro demonstrativo</option>
+              <option value="estudante-001">Estudante 001 — 08:30</option>
+              <option value="estudante-002">Estudante 002 — 10:00</option>
+              <option value="estudante-003">Estudante 003 — 13:30</option>
+              <option value="estudante-004">Estudante 004 — 15:00</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="nota-sessao">Anotação demonstrativa</label>
+            <textarea id="nota-sessao" rows="6" minlength="10" maxlength="1000" placeholder="Digite um texto fictício para visualizar o campo. Não registre informações de pessoas reais." aria-describedby="nota-ajuda" required></textarea>
+            <p class="field-hint" id="nota-ajuda">Mínimo de 10 e máximo de 1.000 caracteres.</p>
+          </div>
+
+          <label class="demo-consent" for="confirmacao-demo">
+            <input id="confirmacao-demo" type="checkbox" required>
+            <span>Confirmo que usei somente dados fictícios nesta demonstração.</span>
+          </label>
+
+          <button class="btn-primary" type="submit">Concluir demonstração</button>
+        </form>
+
+        <aside class="privacy-note">
+          Esta página não salva nem transmite o texto. Não insira informações reais de saúde ou identificação.
+        </aside>
+
+        <p class="feedback-message" id="aviso-demo" role="status">
+          Demonstração concluída. Nenhuma anotação foi salva ou enviada.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="dashboard-footer">
+    PsiCloud — protótipo acadêmico de apoio à saúde mental no IFPI Campus Picos.
+  </footer>
+</body>
+</html>
