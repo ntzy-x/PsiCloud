@@ -12,21 +12,22 @@
     <!-- Cabeçalho / Navbar -->
     <header class="header">
         <div class="logo">PsiCloud</div>
-        <nav class="nav-links">
-            <a href="pages/inicio.html">Início</a> <!--alteração do link (guilherme)-->
+        <nav class="nav-links" aria-label="Navegação principal">
+            <a href="#inicio">Início</a>
             <a href="pages/login.html">Entrar</a> <!--alteração do link (guilherme)-->
         </nav>
     </header>
 
+    <main id="conteudo">
     <!-- Seção Principal (Hero Banner) estruturada com Flexbox -->
-    <section class="hero">
+    <section class="hero" id="inicio">
         <h1>PsiCloud</h1>
         <p>Acompanhe mentes, não apenas consultas. Um espaço seguro e acolhedor de apoio à saúde mental no IFPI.</p>
         <a href="pages/agendamento.html" class="btn-primary">Agendar Consulta</a>
     </section>
 
     <!-- Seção de Diferenciais (Cards com Flexbox) -->
-    <section class="diferenciais">
+    <section class="diferenciais" aria-label="Diferenciais do PsiCloud">
         <div class="card-dif">
             <h3>💬 Chat de Acolhimento</h3>
             <p>Suporte e check-in diário de humor com inteligência e proximidade para te ouvir sempre.</p>
@@ -40,6 +41,7 @@
             <p>Acompanhe gráficos da sua evolução e bem-estar ao longo das semanas de aula.</p>
         </div>
     </section>
+    </main>
 
 </body>
 </html>
