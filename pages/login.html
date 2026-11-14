@@ -9,23 +9,23 @@
 <body class="auth-body">
 
   <main class="auth-container">
-    <div class="auth-card">
+    <section class="auth-card" aria-labelledby="login-title">
       
       <!-- Cabeçalho do Card -->
       <header class="auth-header">
-        <h1 class="logo-title">PsiCloud</h1>
-        <p class="auth-subtitle">Acesse sua conta institucional</p>
+        <h1 class="logo-title" id="login-title">PsiCloud</h1>
+          <p class="auth-subtitle">Acesso demonstrativo. Esta tela não autentica contas nem salva dados.</p>
       </header>
 
       <!-- Formulário com Validação Nativa HTML5 -->
-      <form action="dashboard-psicologo.html" method="GET" class="auth-form">
+      <!-- Sem name nos campos: a demonstração não envia credenciais na URL. -->
+      <form action="inicio.html" method="get" class="auth-form">
         
         <div class="form-group">
           <label for="email">E-mail Institucional</label>
           <input 
             type="email" 
             id="email" 
-            name="email" 
             class="input-field" 
             placeholder="aluno@aluno.ifpi.edu.br" 
             required 
@@ -38,7 +38,6 @@
           <input 
             type="password" 
             id="senha" 
-            name="senha" 
             class="input-field" 
             placeholder="••••••••" 
             required 
@@ -47,16 +46,16 @@
           />
         </div>
 
-        <button type="submit" class="btn-primary">Entrar no PsiCloud</button>
+        <button type="submit" class="btn-primary">Entrar na demonstração</button>
       </form>
 
       <!-- Links de Navegação -->
       <footer class="auth-footer">
         <p>Ainda não tem conta? <a href="cadastro.html">Cadastre-se aqui</a></p>
-        <p><a href="index.html" class="link-back">← Voltar para a página inicial</a></p>
+        <p><a href="../index.html" class="link-back">← Voltar para a página inicial</a></p>
       </footer>
 
-    </div>
+    </section>
   </main>
 
 </body>

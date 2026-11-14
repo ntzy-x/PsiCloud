@@ -9,23 +9,23 @@
 <body class="auth-body">
 
   <main class="auth-container">
-    <div class="auth-card">
+    <section class="auth-card" aria-labelledby="cadastro-title">
       
       <!-- Cabeçalho do Card -->
       <header class="auth-header">
-        <h1 class="logo-title">PsiCloud</h1>
-        <p class="auth-subtitle">Crie sua conta no IFPI Campus Picos</p>
+        <h1 class="logo-title" id="cadastro-title">PsiCloud</h1>
+          <p class="auth-subtitle">Cadastro demonstrativo. Nenhuma conta ou informação será salva.</p>
       </header>
 
       <!-- Formulário com Validação Nativa HTML5 -->
-      <form action="login.html" method="GET" class="auth-form">
+      <!-- Sem name nos campos: a demonstração valida e redireciona sem enviar dados. -->
+      <form action="login.html" method="get" class="auth-form">
         
         <div class="form-group">
           <label for="nome">Nome Completo</label>
           <input 
             type="text" 
             id="nome" 
-            name="nome" 
             class="input-field" 
             placeholder="Digite seu nome completo" 
             required 
@@ -39,7 +39,6 @@
           <input 
             type="email" 
             id="email" 
-            name="email" 
             class="input-field" 
             placeholder="aluno@aluno.ifpi.edu.br" 
             required 
@@ -49,7 +48,7 @@
 
         <div class="form-group">
           <label for="perfil">Perfil no Campus</label>
-          <select id="perfil" name="perfil" class="input-field" required>
+          <select id="perfil" class="input-field" required>
             <option value="" disabled selected>Selecione seu vínculo...</option>
             <option value="aluno">Aluno / Discente</option>
             <option value="servidor">Servidor / Professor</option>
@@ -62,7 +61,6 @@
           <input 
             type="text" 
             id="matricula" 
-            name="matricula" 
             class="input-field" 
             placeholder="Ex: 202310110001" 
             required 
@@ -76,7 +74,6 @@
           <input 
             type="password" 
             id="senha" 
-            name="senha" 
             class="input-field" 
             placeholder="Crie uma senha (mínimo 8 caracteres)" 
             required 
@@ -98,10 +95,10 @@
       <!-- Links de Navegação -->
       <footer class="auth-footer">
         <p>Já possui uma conta? <a href="login.html">Faça login</a></p>
-        <p><a href="index.html" class="link-back">← Voltar para a página inicial</a></p>
+        <p><a href="../index.html" class="link-back">← Voltar para a página inicial</a></p>
       </footer>
 
-    </div>
+    </section>
   </main>
 
 </body>

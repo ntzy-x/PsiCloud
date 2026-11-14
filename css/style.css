@@ -1,203 +1,278 @@
 :root {
-    --cor-primaria: #2C3E50;
-    --cor-secundaria: #4A90E2;
-    --cor-fundo: #E8F4F8;
-    --cor-texto: #333333;
-    --cor-branco: #FFFFFF;
-    --fonte-principal: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --cor-primaria: #2C3E50;
+  --cor-secundaria: #4A90E2;
+  --cor-fundo: #E8F4F8;
+  --cor-fundo-pagina: #F3F7FA;
+  --cor-texto: #334155;
+  --cor-texto-suave: #64748B;
+  --cor-branco: #FFFFFF;
+  --cor-borda: #DCE6EE;
+  --cor-borda-clara: #E8EEF3;
+  --cor-erro: #B42318;
+  --cor-sucesso: #287044;
+  --sombra-cartao: 0 8px 24px rgba(29, 54, 75, 0.05);
+  --raio-cartao: 1rem;
+  --fonte-principal: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: var(--fonte-principal);
-    background-color: var(--cor-fundo);
-    color: var(--cor-texto);
-    font-size: 1rem;
-    line-height: 1.6;
+  min-height: 100vh;
+  background: var(--cor-fundo-pagina);
+  color: var(--cor-texto);
+  font-family: var(--fonte-principal);
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-/* ==========================================================================
-   COMPONENTES REUTILIZÁVEIS (.input-field, select, .btn-primary)
-   ========================================================================== */
+/* Cabeçalho compartilhado */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 76px;
+  padding: 0.8rem clamp(1rem, 4vw, 3rem);
+  border-bottom: 1px solid var(--cor-borda);
+  background: var(--cor-branco);
+}
 
-/* 1. Campos de Entrada Textuais (.input-field) */
-.input-field {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-family: inherit;
-  font-size: 1rem;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
   color: var(--cor-primaria);
-  background-color: #FFFFFF;
-  border: 1.5px solid #CBD5E1;
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.logo img {
+  width: 2.3rem;
+  height: 2.3rem;
+  flex: 0 0 auto;
+  border-radius: 0.7rem;
+  object-fit: cover;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0.5rem 0.8rem;
+  border-radius: 0.6rem;
+  color: #536273;
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  background: #EAF2F8;
+  color: var(--cor-primaria);
+}
+
+/* Apresentação e cartões da landing page */
+.hero {
+  display: flex;
+  width: min(1180px, calc(100% - 2rem));
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 2rem auto 0;
+  padding: clamp(2.5rem, 7vw, 4.5rem) 1.5rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-cartao);
+  background: var(--cor-branco);
+  box-shadow: var(--sombra-cartao);
+  color: var(--cor-texto-suave);
+  text-align: center;
+}
+
+.hero h1 {
+  color: var(--cor-primaria);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  line-height: 1.2;
+}
+
+.hero p {
+  max-width: 650px;
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.hero .btn-primary {
+  width: auto;
+}
+
+.diferenciais {
+  display: grid;
+  width: min(1180px, calc(100% - 2rem));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+  gap: 1rem;
+  margin: 1.25rem auto 3rem;
+}
+
+.card-dif {
+  min-width: 0;
+  padding: 1.4rem;
+  border: 1px solid var(--cor-borda-clara);
+  border-top: 3px solid var(--cor-secundaria);
+  border-radius: 0.85rem;
+  background: var(--cor-branco);
+  box-shadow: var(--sombra-cartao);
+}
+
+.card-dif h2,
+.card-dif h3 {
+  margin-bottom: 0.45rem;
+  color: var(--cor-primaria);
+  font-size: 1.15rem;
+}
+
+.card-dif p {
+  color: var(--cor-texto-suave);
+  font-size: 0.92rem;
+}
+
+.card-dif .btn-primary {
+  width: auto;
+  margin-top: 0.75rem;
+}
+
+.inicio-options {
+  display: grid;
+  width: min(900px, calc(100% - 2rem));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem auto 3rem;
+}
+
+.inicio-options .card-dif {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.inicio-options .card-dif p {
+  flex: 1;
+}
+
+.inicio-options .card-dif .btn-primary {
+  margin-top: 0.25rem;
+}
+
+.inicio-footer {
+  padding: 0 1rem 1.5rem;
+  color: var(--cor-texto-suave);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+/* Campos e botões */
+.input-field {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid #CBD5E1;
+  border-radius: 0.65rem;
+  background: var(--cor-branco);
+  color: var(--cor-primaria);
+  font: inherit;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .input-field::placeholder {
   color: #94A3B8;
 }
 
-/* Estado de Foco (Acessibilidade) */
-.input-field:focus {
-  border-color: var(--cor-secundaria);
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
-}
-
-/* 2. Caixas de Seleção (<select.input-field>) */
 select.input-field {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  appearance: auto;
   cursor: pointer;
-  /* Seta customizada em SVG usando a cor primária (#2C3E50) */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%3C2C3E50'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-  background-size: 1.1rem;
-  padding-right: 2.5rem;
 }
 
-/* 3. Botão Principal (.btn-primary) */
+.input-field:focus-visible {
+  border-color: var(--cor-secundaria);
+  outline: 3px solid rgba(74, 144, 226, 0.25);
+  outline-offset: 1px;
+}
+
+.input-field:focus:invalid {
+  border-color: var(--cor-erro);
+  box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.12);
+}
+
+.input-field:focus:valid {
+  border-color: var(--cor-sucesso);
+  box-shadow: 0 0 0 3px rgba(40, 112, 68, 0.12);
+}
+
 .btn-primary {
   display: inline-flex;
+  width: 100%;
+  min-height: 46px;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 0.75rem 1.5rem;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  background-color: var(--cor-secundaria);
-  border: none;
-  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 0.65rem;
+  background: var(--cor-secundaria);
+  color: var(--cor-branco);
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  font: inherit;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
 }
 
-/* Estados Interativos do Botão */
 .btn-primary:hover {
-  background-color: #357ABD; /* Tom de destaque levemente mais escuro */
-  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  background: #357ABD;
+  box-shadow: 0 5px 14px rgba(74, 144, 226, 0.22);
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
+  transform: translateY(1px);
 }
 
-/* Estados Desabilitados */
+.btn-primary:focus-visible {
+  outline: 3px solid rgba(74, 144, 226, 0.35);
+  outline-offset: 3px;
+}
+
 .btn-primary:disabled,
 .input-field:disabled {
-  opacity: 0.6;
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
-/* --- Estilos da Landing Page (Semana 2) --- */
-
-/* Cabeçalho com Flexbox */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 3rem;
-    background-color: var(--cor-branco);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.logo {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: var(--cor-primaria);
-}
-
-.nav-links a {
-    margin-left: 2rem;
-    font-weight: 600;
-}
-
-/* Hero Banner com Flexbox */
-.hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 5rem 2rem;
-    background-color: var(--cor-primaria);
-    color: var(--cor-branco);
-}
-
-.hero h1 {
-    color: var(--cor-branco);
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
-}
-
-.hero p {
-    font-size: 1.15rem;
-    max-width: 600px;
-    margin-bottom: 2rem;
-    line-height: 1.5;
-}
-
-/* Botão principal reutilizável */
-.btn-primary {
-    background-color: var(--cor-secundaria);
-    color: var(--cor-branco);
-    padding: 0.75rem 1.75rem;
-    border-radius: 6px;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-.btn-primary:hover {
-    background-color: #357abd;
-}
-
-/* Seção de Diferenciais (Cards com Flexbox) */
-.diferenciais {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    padding: 4rem 2rem;
-    flex-wrap: wrap; /* Permite que quebrem a linha em telas menores */
-}
-
-.card-dif {
-    background-color: var(--cor-branco);
-    padding: 2rem;
-    border-radius: 8px;
-    width: 300px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border-top: 4px solid var(--cor-secundaria);
-}
-
-.card-dif h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.2rem;
-}
-
-.card-dif p {
-    color: var(--cor-texto);
-    font-size: 0.95rem;
-}
-
-/* ==========================================================================
-   ESTILOS DAS TELAS DE ACESSO (LOGIN / CADASTRO)
-   ========================================================================== */
-
+/* Cartão compartilhado pelas telas de acesso */
 .auth-body {
-  background-color: var(--cor-fundo);
-  min-height: 100vh;
   display: flex;
+  min-height: 100vh;
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+  background: var(--cor-fundo-pagina);
 }
 
 .auth-container {
@@ -206,227 +281,119 @@ select.input-field {
 }
 
 .auth-card {
-  background-color: #FFFFFF;
-  padding: 2.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  padding: clamp(1.4rem, 5vw, 2rem);
+  border: 1px solid var(--cor-borda-clara);
+  border-radius: var(--raio-cartao);
+  background: var(--cor-branco);
+  box-shadow: var(--sombra-cartao);
 }
 
 .auth-header {
+  margin-bottom: 1.5rem;
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 .logo-title {
+  margin-bottom: 0.25rem;
   color: var(--cor-primaria);
   font-size: 2rem;
-  margin-bottom: 0.25rem;
+  line-height: 1.2;
 }
 
 .auth-subtitle {
-  color: #64748B;
-  font-size: 0.95rem;
+  color: var(--cor-texto-suave);
+  font-size: 0.92rem;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  text-align: left;
+  gap: 0.4rem;
 }
 
 .form-group label {
-  font-size: 0.9rem;
-  font-weight: 600;
   color: var(--cor-primaria);
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 .form-group-checkbox {
-  margin: 0.5rem 0;
+  margin: 0.2rem 0;
 }
 
 .checkbox-label {
-  font-size: 0.85rem;
-  color: #475569;
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  color: var(--cor-texto-suave);
   cursor: pointer;
+  font-size: 0.84rem;
+}
+
+.checkbox-label input {
+  flex: 0 0 auto;
+  margin-top: 0.3rem;
+  accent-color: var(--cor-secundaria);
 }
 
 .auth-footer {
-  margin-top: 2rem;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #64748B;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-top: 1.5rem;
+  color: var(--cor-texto-suave);
+  font-size: 0.88rem;
+  text-align: center;
 }
 
 .auth-footer a {
   color: var(--cor-secundaria);
+  font-weight: 650;
   text-decoration: none;
-  font-weight: 600;
 }
 
-.auth-footer a:hover {
+.auth-footer a:hover,
+.auth-footer a:focus-visible {
   text-decoration: underline;
 }
 
-.link-back {
-  color: #94A3B8 !important;
-  font-weight: normal !important;
-    }
-
-/* ==========================================================================
-   MODAL DE CONFIRMAÇÃO (ACIONADO VIA :target - SEM JAVASCRIPT)
-   ========================================================================== */
-
-/* 1. Camada de Fundo (Overlay) - Escondida por padrão */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  
-  /* Esconde o modal suavemente */
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+.auth-footer .link-back {
+  color: var(--cor-texto-suave);
+  font-weight: 400;
 }
 
-/* 2. Ativação via Pseudo-classe :target */
-.modal-overlay:target {
-  opacity: 1;
-  visibility: visible;
-}
+@media (max-width: 640px) {
+  .header {
+    flex-wrap: wrap;
+    min-height: 68px;
+    padding-inline: 1rem;
+  }
 
-/* 3. Área de Fundo Clicável (Para fechar o modal ao clicar fora) */
-.modal-backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  cursor: default;
-}
+  .nav-links {
+    gap: 0.2rem;
+  }
 
-/* 4. Caixa do Modal (Card de Diálogo) */
-.modal-card {
-  position: relative;
-  background-color: #FFFFFF;
-  width: 90%;
-  max-width: 480px;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  z-index: 1001;
-  transform: translateY(-20px);
-  transition: transform 0.3s ease;
-}
+  .nav-links a {
+    padding-inline: 0.55rem;
+    font-size: 0.86rem;
+  }
 
-/* Efeito de elevação quando o modal abre */
-.modal-overlay:target .modal-card {
-  transform: translateY(0);
-}
+  .hero {
+    margin-top: 1rem;
+    padding-inline: 1rem;
+  }
 
-/* 5. Cabeçalho do Modal */
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid #E2E8F0;
-  padding-bottom: 0.75rem;
-}
+  .diferenciais {
+    margin-top: 1rem;
+  }
 
-.modal-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--cor-primaria);
-  margin: 0;
-}
-
-.modal-close-btn {
-  font-size: 1.5rem;
-  line-height: 1;
-  color: #94A3B8;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.modal-close-btn:hover {
-  color: var(--cor-primaria);
-}
-
-/* 6. Conteúdo e Resumo do Agendamento */
-.modal-body {
-  color: #475569;
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.5;
-}
-
-.modal-summary {
-  list-style: none;
-  padding: 1rem;
-  background-color: var(--cor-fundo);
-  border-radius: 8px;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.modal-summary li {
-  color: var(--cor-primaria);
-  font-size: 0.9rem;
-}
-
-/* 7. Rodapé e Botões de Ação */
-.modal-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.25rem;
-  font-family: inherit;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #64748B;
-  background-color: #F1F5F9;
-  border: 1px solid #CBD5E1;
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background-color: #E2E8F0;
-  color: var(--cor-primaria);
-}
-
-.modal-footer .btn-primary {
-  width: auto;
-  text-decoration: none;
+  .inicio-options {
+    grid-template-columns: 1fr;
+  }
 }
