@@ -448,3 +448,98 @@ select.input-field {
     }
 }
 
+/* Banner de emergência/suporte urgente exibido no topo da tela.*/
+.banner-suporte-urgente {
+  display: flex;
+  width: min(1180px, calc(100% - 2rem));
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem auto;
+  padding: 1rem 1.15rem;
+  border: 1px solid #EAC7C3;
+  border-left: 0.35rem solid var(--cor-erro);
+  border-radius: var(--raio-cartao);
+  background: #FFF7F5;
+  box-shadow: var(--sombra-cartao);
+  color: var(--cor-primaria);
+}
+
+.banner-suporte-urgente__texto {
+  flex: 1 1 22rem;
+}
+
+.banner-suporte-urgente__titulo {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.banner-suporte-urgente__texto p {
+  max-width: 75ch;
+  color: var(--cor-texto);
+  font-size: 0.92rem;
+}
+
+.banner-suporte-urgente__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.banner-suporte-urgente__link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--cor-erro);
+  border-radius: 0.6rem;
+  background: var(--cor-erro);
+  color: var(--cor-branco);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.18s ease, transform 0.12s ease;
+}
+
+.banner-suporte-urgente__link:hover {
+  background: #8F1D14;
+  color: var(--cor-branco);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.banner-suporte-urgente__link:focus-visible {
+  outline: 3px solid var(--cor-primaria);
+  outline-offset: 3px;
+}
+
+.banner-suporte-urgente__link:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 600px) {
+  .banner-suporte-urgente {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .banner-suporte-urgente__acoes {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .banner-suporte-urgente__link {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner-suporte-urgente__link {
+    transition: none;
+  }
+}
+
