@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interface demonstrativa de apoio inicial e seleção de humor do PsiCloud.">
+  <title>Apoio Inicial e Chatbot | PsiCloud</title>
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+      background: #F3F7FA;
+      color: var(--cor-primaria, #2C3E50);
+    }
+
+    .chat-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cor-branco, #FFFFFF);
+      border-bottom: 1px solid #DCE6EE;
+    }
+
+    .chat-topbar-inner,
+    .chat-container,
+    .chat-footer {
+      width: min(1040px, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .chat-topbar-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      color: var(--cor-primaria, #2C3E50);
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      display: block;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 0.7rem;
+      background: var(--cor-primaria, #2C3E50);
+      object-fit: cover;
+    }
+
+    .chat-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .chat-nav a {
+      padding: 0.5rem 0.85rem;
+      border-radius: 0.55rem;
+      color: #475569;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .chat-nav a:hover,
+    .chat-nav a:focus-visible {
+      background: #EAF2F8;
+      color: var(--cor-primaria, #2C3E50);
+    }
+
+    .chat-container {
+      padding-block: 2rem 2.5rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: var(--cor-branco, #FFFFFF);
+      border: 1px solid #E0E8EF;
+      border-radius: 1rem;
+      padding: 1.35rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(29, 54, 75, 0.05);
+    }
+
+    .chat-header h1 {
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      color: var(--cor-primaria, #2C3E50);
+      margin-bottom: 0.3rem;
+    }
+
+    .chat-header p {
+      color: #64748B;
+      font-size: 0.92rem;
+    }
+
+    .demo-pill {
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid #B7D9ED;
+      background: #EAF6FC;
+      color: #245B78;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .chat-panel {
+      background: var(--cor-branco, #FFFFFF);
+      border: 1px solid #E0E8EF;
+      border-radius: 1rem;
+      padding: 1.35rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(29, 54, 75, 0.05);
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .mood-section h2,
+    .prompts-section h2 {
+      font-size: 0.95rem;
+      color: var(--cor-primaria, #2C3E50);
+      margin-bottom: 0.65rem;
+    }
+
+    .mood-options {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .mood-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      border: 1.5px solid #CBD5E1;
+      background: #F8FAFC;
+      color: var(--cor-primaria, #2C3E50);
+      font-size: 0.88rem;
+      font-weight: 650;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .mood-chip:hover,
+    .mood-chip:focus-visible {
+      border-color: var(--cor-secundaria, #4A90E2);
+      background: #EAF2FB;
+    }
+
+    .conversation-thread {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      padding: 1rem;
+      border-radius: 0.85rem;
+      background: var(--cor-fundo, #E8F4F8);
+      border: 1px solid #D3E6EE;
+    }
+
+    .message {
+      max-width: min(82%, 620px);
+      padding: 0.85rem 1rem;
+      border-radius: 0.9rem;
+      line-height: 1.5;
+      font-size: 0.92rem;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+    }
+
+    .message-bot {
+      align-self: flex-start;
+      background: var(--cor-branco, #FFFFFF);
+      color: var(--cor-primaria, #2C3E50);
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    .message-user {
+      align-self: flex-end;
+      background: var(--cor-secundaria, #4A90E2);
+      color: var(--cor-branco, #FFFFFF);
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .message-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Respostas demonstrativas via :target sem JavaScript */
+    .simulated-exchange {
+      display: none;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .simulated-exchange:target {
+      display: flex;
+    }
+
+    .prompt-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.65rem;
+    }
+
+    .prompt-link {
+      display: block;
+      padding: 0.75rem 0.9rem;
+      border-radius: 0.7rem;
+      border: 1px solid #CBD5E1;
+      background: #F8FAFC;
+      color: var(--cor-primaria, #2C3E50);
+      font-size: 0.86rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: border-color 0.18s ease, background-color 0.18s ease;
+    }
+
+    .prompt-link:hover,
+    .prompt-link:focus-visible {
+      border-color: var(--cor-secundaria, #4A90E2);
+      background: #EAF2FB;
+    }
+
+    .chat-composer {
+      display: flex;
+      gap: 0.65rem;
+      align-items: center;
+      padding-top: 0.35rem;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 0.75rem 0.95rem;
+      border-radius: 0.65rem;
+      border: 1.5px solid #CBD5E1;
+      background: var(--cor-branco, #FFFFFF);
+      color: var(--cor-primaria, #2C3E50);
+      font: inherit;
+      font-size: 0.9rem;
+    }
+
+    .chat-input:focus-visible {
+      outline: 3px solid rgba(74, 144, 226, 0.35);
+      border-color: var(--cor-secundaria, #4A90E2);
+    }
+
+    .chat-notice {
+      font-size: 0.8rem;
+      color: #64748B;
+      background: #F8FAFC;
+      border-left: 3px solid var(--cor-secundaria, #4A90E2);
+      padding: 0.7rem 0.9rem;
+      border-radius: 0.35rem;
+    }
+
+    .chat-footer {
+      padding-bottom: 2rem;
+      text-align: center;
+      color: #64748B;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 600px) {
+      .message {
+        max-width: 94%;
+      }
+
+      .chat-composer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="chat-topbar">
+    <div class="chat-topbar-inner">
+      <a class="brand" href="../index.html" aria-label="PsiCloud - página inicial">
+        <img class="brand-logo" src="../images/logo.png" alt="" aria-hidden="true">
+        <span>PsiCloud</span>
+      </a>
+
+      <nav class="chat-nav" aria-label="Navegação principal">
+        <a href="../index.html">Início</a>
+        <a href="agendamento.html">Agendamento</a>
+        <a href="dashboard-psicologo.html">Painel do psicólogo</a>
+        <a href="login.html">Entrar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="chat-container">
+    <section class="chat-header" aria-labelledby="chat-title">
+      <div>
+        <h1 id="chat-title">Assistente de acolhimento inicial</h1>
+        <p>Espaço demonstrativo para triagem de bem-estar no IFPI Campus Picos (ODS 3).</p>
+      </div>
+      <span class="demo-pill">Protótipo estático • HTML5 &amp; CSS3</span>
+    </section>
+
+    <section class="chat-panel" aria-label="Conversa e seleção de humor">
+      <div class="mood-section">
+        <h2>Como você está se sentindo hoje?</h2>
+        <div class="mood-options" role="group" aria-label="Seleção de estado emocional">
+          <button type="button" class="mood-chip">😌 Calmo</button>
+          <button type="button" class="mood-chip">🙂 Bem</button>
+          <button type="button" class="mood-chip">😓 Sobrecarregado</button>
+          <button type="button" class="mood-chip">😟 Ansioso</button>
+          <button type="button" class="mood-chip">😴 Cansado</button>
+        </div>
+      </div>
+
+      <div class="conversation-thread" aria-live="polite">
+        <article class="message message-bot">
+          <span class="message-label">PsiCloud</span>
+          Olá! Este é um ambiente de acolhimento inicial e orientação sobre os serviços de apoio psicológico do campus. Como posso ajudar você hoje?
+        </article>
+
+        <!-- Troca demonstrativa 1 -->
+        <div class="simulated-exchange" id="fluxo-ansiedade">
+          <article class="message message-user">
+            <span class="message-label">Você</span>
+            Estou sentindo ansiedade com as provas e prazos desta semana.
+          </article>
+          <article class="message message-bot">
+            <span class="message-label">PsiCloud</span>
+            É compreensível sentir pressão em períodos de avaliação. Uma pausa curta de respiração pode ajudar agora, e você também pode solicitar um horário na aba de agendamento.
+          </article>
+        </div>
+
+        <!-- Troca demonstrativa 2 -->
+        <div class="simulated-exchange" id="fluxo-agendamento">
+          <article class="message message-user">
+            <span class="message-label">Você</span>
+            Como funciona para marcar uma conversa com um profissional?
+          </article>
+          <article class="message message-bot">
+            <span class="message-label">PsiCloud</span>
+            Você pode acessar a tela de agendamento no menu superior para visualizar a disponibilidade demonstrativa e conhecer o fluxo de atendimento.
+          </article>
+        </div>
+
+        <!-- Troca demonstrativa 3 -->
+        <div class="simulated-exchange" id="fluxo-rotina">
+          <article class="message message-user">
+            <span class="message-label">Você</span>
+            Quero dicas rápidas para organizar o sono e o descanso.
+          </article>
+          <article class="message message-bot">
+            <span class="message-label">PsiCloud</span>
+            Evitar telas nos minutos finais antes de dormir, definir um horário limite de estudo e separar pausas reais costumam ajudar a recuperar o foco.
+          </article>
+        </div>
+      </div>
+
+      <div class="prompts-section">
+        <h2>Simular uma pergunta rápida (CSS :target)</h2>
+        <div class="prompt-links">
+          <a class="prompt-link" href="#fluxo-ansiedade">“Estou sentindo ansiedade com as provas...”</a>
+          <a class="prompt-link" href="#fluxo-agendamento">“Como funciona para marcar uma conversa?”</a>
+          <a class="prompt-link" href="#fluxo-rotina">“Dicas rápidas para organizar o descanso”</a>
+        </div>
+      </div>
+
+      <form class="chat-composer" action="#fluxo-ansiedade" method="get">
+        <label class="visually-hidden" for="campo-mensagem">Digite sua mensagem demonstrativa</label>
+        <input
+          id="campo-mensagem"
+          class="chat-input"
+          type="text"
+          placeholder="Escreva uma mensagem demonstrativa (sem envio real de dados)..."
+        >
+        <button type="submit" class="btn-primary">Simular envio</button>
+      </form>
+
+      <p class="chat-notice">
+        Aviso acadêmico: este protótipo utiliza apenas HTML5 e CSS3, sem inteligência artificial ativa, armazenamento de mensagens ou atendimento de emergência. Em caso de urgência, procure os canais oficiais de saúde e apoio da sua região.
+      </p>
+    </section>
+  </main>
+
+  <footer class="chat-footer">
+    PsiCloud — Projeto acadêmico IFPI Campus Picos • ODS 3 (Saúde e Bem-Estar).
+  </footer>
+</body>
+  </html>
+          
