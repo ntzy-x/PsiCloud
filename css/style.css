@@ -543,3 +543,8 @@ select.input-field {
   }
 }
 
+/* Rolagem suave na caixa de mensagens */
+.chat-messages {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
